@@ -11,6 +11,7 @@ import {
   Ship,
 } from "lucide-react";
 import { useState } from "react";
+import type { ReactNode } from "react";
 import heroAsset from "@/assets/ocean-trace-hero.jpg.asset.json";
 import { OceanTraceMark } from "@/components/ocean-trace-mark";
 import { Button } from "@/components/ui/button";
@@ -130,7 +131,7 @@ function LandingPage() {
   );
 }
 
-function TelemetryStep({ icon, number, tone = "primary", title, detail }: { icon?: React.ReactNode; number?: string; tone?: "primary" | "good" | "muted" | "warn"; title: string; detail: string }) {
+function TelemetryStep({ icon, number, tone = "primary", title, detail }: { icon?: ReactNode; number?: string; tone?: "primary" | "good" | "muted" | "warn"; title: string; detail: string }) {
   return <div className="relative flex gap-4"><span className={`step-icon step-${tone}`}>{icon ?? number}</span><div><h3 className={`text-sm font-bold uppercase ${tone === "warn" ? "text-warning" : "text-foreground"}`}>{title}</h3><p className="mt-1 text-xs leading-5 text-copy">{detail}</p></div></div>;
 }
 
