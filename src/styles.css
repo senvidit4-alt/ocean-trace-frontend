@@ -19,6 +19,9 @@
  */
 
 @theme inline {
+  --font-sans: "Barlow", sans-serif;
+  --font-display: "Barlow Condensed", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -46,6 +49,11 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-copy: var(--copy);
+  --color-panel: var(--panel);
+  --color-field: var(--field);
+  --color-warning: var(--warning);
+  --color-primary-bright: var(--primary-bright);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -62,26 +70,32 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --radius: 0.25rem;
+  --background: oklch(0.09 0.035 253);
+  --foreground: oklch(0.97 0.01 228);
+  --card: oklch(0.13 0.045 258);
+  --card-foreground: oklch(0.97 0.01 228);
+  --popover: oklch(0.13 0.045 258);
+  --popover-foreground: oklch(0.97 0.01 228);
+  --primary: oklch(0.87 0.17 193);
+  --primary-bright: oklch(0.92 0.16 193);
+  --primary-foreground: oklch(0.16 0.045 245);
+  --primary-glow: oklch(0.87 0.17 193 / 0.34);
+  --secondary: oklch(0.19 0.05 251);
+  --secondary-foreground: oklch(0.94 0.015 230);
+  --muted: oklch(0.18 0.035 250);
+  --muted-foreground: oklch(0.7 0.045 240);
+  --accent: oklch(0.87 0.17 193);
+  --accent-foreground: oklch(0.16 0.045 245);
+  --copy: oklch(0.82 0.035 240);
+  --panel: oklch(0.11 0.045 258 / 0.9);
+  --field: oklch(0.075 0.033 255 / 0.88);
+  --warning: oklch(0.79 0.17 76);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.38 0.075 238 / 0.65);
+  --input: oklch(0.32 0.06 244);
+  --ring: oklch(0.87 0.17 193);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +154,42 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    margin: 0;
   }
+
+  button, input { font: inherit; }
 }
+
+@keyframes ocean-drift { 0%, 100% { transform: scale(1.05) translate3d(0, 0, 0); } 50% { transform: scale(1.1) translate3d(-1%, -0.5%, 0); } }
+@keyframes sweep { 0%, 100% { opacity: .24; transform: translateX(-3%) rotate(-2deg); } 50% { opacity: .55; transform: translateX(12%) rotate(2deg); } }
+@keyframes pulse-live { 0%, 100% { box-shadow: 0 0 0 0 var(--primary-glow); } 50% { box-shadow: 0 0 0 6px transparent; } }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes reticle { 50% { transform: translateY(-5px) scale(1.04); filter: drop-shadow(0 0 14px var(--primary)); } }
+
+.hero-shell, .auth-shell { position: relative; isolation: isolate; }
+.hero-image, .auth-image { position: fixed; inset: 0; z-index: -4; width: 100%; height: 100%; object-fit: cover; animation: ocean-drift 18s ease-in-out infinite; }
+.hero-shade, .auth-shade { position: fixed; inset: 0; z-index: -3; background: linear-gradient(90deg, oklch(0.045 0.035 255 / .95) 0%, oklch(0.06 0.04 250 / .7) 45%, oklch(0.045 0.04 260 / .52) 100%), linear-gradient(0deg, oklch(0.035 0.03 255 / .9), transparent 55%); }
+.auth-shade { background: linear-gradient(90deg, oklch(0.045 0.035 255 / .96), oklch(0.05 0.04 255 / .68) 58%, oklch(0.035 0.03 255 / .88)); }
+.ocean-grid { position: fixed; inset: 0; z-index: -2; opacity: .15; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 72px 72px; mask-image: linear-gradient(to bottom, transparent, black 35%, transparent); }
+.scan-beam { position: fixed; z-index: -1; top: -6%; left: 30%; width: 28%; height: 58%; opacity: .35; clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%); background: linear-gradient(to bottom, var(--primary), transparent); filter: blur(7px); transform-origin: top; animation: sweep 7s ease-in-out infinite; }
+.brand-mark { display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid var(--primary); border-radius: 8px; color: var(--primary-foreground); background: var(--primary); box-shadow: 0 0 24px var(--primary-glow); }
+.brand-mark svg { width: 23px; }
+.live-dot { width: 7px; height: 7px; border-radius: 999px; background: var(--primary); animation: pulse-live 1.7s ease-out infinite; }
+.telemetry-panel { border-radius: 14px; }
+.telemetry-line { position: relative; }
+.telemetry-line::before { content: ""; position: absolute; left: 14px; top: 20px; bottom: 20px; width: 1px; background: linear-gradient(var(--primary), var(--border), var(--warning)); }
+.step-icon { position: relative; z-index: 1; display: grid; width: 29px; height: 29px; flex: 0 0 29px; place-items: center; border-radius: 999px; border: 1px solid var(--primary); background: var(--card); color: var(--primary); font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
+.step-icon svg { width: 15px; }
+.step-good { border-color: oklch(0.72 0.17 163); color: oklch(0.78 0.18 163); background: oklch(0.25 0.08 163); }
+.step-muted { border-color: var(--muted-foreground); color: var(--muted-foreground); }
+.step-warn { border-color: var(--warning); color: var(--warning); background: oklch(0.28 0.08 76); }
+.tracking-reticle { display: none; position: absolute; left: -28%; top: -58px; color: var(--primary); animation: reticle 2.8s ease-in-out infinite; }
+.tracking-reticle::before { content: ""; position: absolute; inset: -28px; border: 1px dashed var(--primary); }
+.tracking-reticle svg { width: 30px; height: 30px; }
+.animate-rise { animation: rise .8s ease-out both; }
+.animate-rise-delayed { animation: rise .8s .18s ease-out both; }
+
+@media (min-width: 1280px) { .tracking-reticle { display: block; } }
+@media (max-width: 1023px) { .hero-image { position: absolute; } .hero-shade { position: absolute; background: oklch(0.045 0.035 255 / .82); } }
+@media (prefers-reduced-motion: reduce) { .hero-image, .auth-image, .scan-beam, .live-dot, .tracking-reticle, .animate-rise, .animate-rise-delayed { animation: none; } }
